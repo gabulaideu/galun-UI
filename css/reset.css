@@ -1,0 +1,61 @@
+@charset "utf-8";
+html,body,div,dl,dt,dd,ul,ol,li,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td,figure{margin:0;padding:0;font-size:12px;font-family:arial,\5FAE\8F6F\96C5\9ED1,\5b8b\4f53,sans-serif;word-wrap:break-word;word-break:break-all;}
+table{border-collapse:collapse;border-spacing:0;}
+a img{border:none;}
+a{outline:none;text-decoration:none;hide-focus:expression(this.hideFocus=true);}
+a:focus{outline:none;}
+a:hover{text-decoration:underline;}
+address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:400;}
+ul,ol{list-style:none;}
+li{list-style:none;display:list-item;}
+caption,th{text-align:left;}
+q:before,q:after{content:'';}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:400;margin:0;padding:0;}
+input,button,textarea,select{font-family:inherit;margin:0;padding:0;outline:0 none;}
+textarea{resize:none;overflow:auto;}
+html{overflow-y:scroll;}
+body{background-color:#fff;color:#444;}
+iframe{position:relative;}
+
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section{display:block;}
+svg{overflow:hidden;}
+
+.clear{clear:both;}
+.clearfix:after{content:'\20';display:block;clear:both;visibility:hidden;line-height:0;height:0;}
+.clearfix{display:block;zoom:1;}
+html[xmlns] .clearfix{display:block;}
+* html .clearfix{height:1%;}
+
+.fl{float:left}
+.fr{float:right}
+.tac{text-align:center;}
+.tar{text-align:right;}
+.tal{text-align:left;}
+.db{display:block}
+.dn{display:none;}
+.mt10{margin-top:10px;}
+.ml10{margin-left:10px;}
+.mr10{margin-right:10px;}
+.mb10{margin-bottom:10px;}
+.pt10{padding-top:10px;}
+.pl10{padding-left:10px;}
+.pr10{padding-right:10px;}
+.pb10{padding-bottom:10px;}
+.fs14{font-size:14px;}
+.fs11{font-size:11px;}
+.fw{font-weight:700;}
+.ffyh{font-family:\5FAE\8F6F\96C5\9ED1;}
+.ffst{font-family:\5B8B\4F53;}
+.ffht{font-family:\9ED1\4F53;}
+.ffa{font-family:Arial;}
+.oh{overflow:hidden;}
+.fsi{font-style:italic;}
+.selectNone{-webkit-user-select:none;-moz-user-select:none;user-select:none;}
+
+/*FF HACK*/@-moz-document url-prefix(){}
+/*CHROME HACK*/@media screen and (-webkit-min-device-pixel-ratio:0){}
+input{vertical-align:middle;}
+img{vertical-align:top;border:0 none;color:transparent;font-size:0;-ms-interpolation-mode:bicubic;}
+label,label em{display:inline-block;vertical-align:middle;}
+label em{padding-left:5px;}
+iframe{vertical-align:top;}

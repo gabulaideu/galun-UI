@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="噶伦的前端开发小记" />
+<meta name="keywords" content="前端,前端开发,web frontend,噶伦" />
+<link href="css/reset.css" rel="stylesheet" type="text/css" />
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+<link href="css/page.css" rel="stylesheet" type="text/css" />
+<title></title>
+</head>
+
+<body>
+	<h1>噶伦生活（GALUN UI）</h1>
+	<div class="content clearfix">
+		<div class="left">
+			<h2>模拟SELECT<span>GlSelect()</span></h2>
+			<div class="GlSelect">
+				<b class="bg"></b>
+				<i class="icon"><s></s><em></em></i>
+				<span class="txt">请选择</span>
+				<input type="hidden" class="hideInput" />
+				<dl>
+					<dd><a href="javascript:void(0);" value="0">上海</a></dd>
+					<dd><a href="javascript:void(0);" value="1">北京</a></dd>
+					<dd><a href="javascript:void(0);" value="0">上海</a></dd>
+					<dd><a href="javascript:void(0);" value="1">北京</a></dd>
+					<dd><a href="javascript:void(0);" value="0">上海</a></dd>
+					<dd><a href="javascript:void(0);" value="1">北京</a></dd>
+				</dl>
+			</div>
+		</div>
+		<div class="right">
+			<table width="100%">
+				<tr>
+					<th width="150">参数</th>
+					<th width="150">类型</th>
+					<th width="150">默认值</th>
+					<th>说明</th>
+				</tr>
+				<tr>
+					<td><b>txt</b></td>
+					<td>String</td>
+					<td>请选择</td>
+					<td class="tal">默认显示的文本</td>
+				</tr>
+				<tr>
+					<td><b>value</b></td>
+					<td>String</td>
+					<td>null</td>
+					<td class="tal">默认select的赋值</td>
+				</tr>
+				<tr>
+					<td><b>direction</b></td>
+					<td>String</td>
+					<td>down</td>
+					<td class="tal">
+						<p>下拉弹出框显示的方向</p>
+						<p><b>down</b>：向下</p>
+						<p><b>up</b>：向上</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>trigger</b></td>
+					<td>String</td>
+					<td>click</td>
+					<td class="tal">
+						<p>下拉弹出框的触发方式</p>
+						<p><b>click</b>：点击</p>
+						<p><b>mouseenter</b>：悬停</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>callback</b></td>
+					<td>Function</td>
+					<td>null</td>
+					<td class="tal">选择完成后的回调函数</td>
+				</tr>
+			</table>
+			<h3><span>依赖html</span></h3>
+			<xmp>
+		<div class="GlSelect">
+			<b class="bg"></b>
+			<i class="icon"><s></s><em></em></i>
+			<span class="txt">请选择</span>
+			<input type="hidden" class="hideInput" />
+			<dl>
+				<dd><a href="javascript:void(0);" value="0">选择01</a></dd>
+				<dd><a href="javascript:void(0);" value="1">选择02</a></dd>
+			</dl>
+		</div>
+			</xmp>
+			<h3><span>依赖css</span></h3>
+			<xmp>
+		.GlSelect{width:120px;position:relative;}
+		.GlSelect b.bg,.GlSelect i.icon{display:block;width:20px;height:20px;position:absolute;right:2px;top:2px;}
+		.GlSelect b.bg{background-color:#ccc;}
+		.GlSelect i.icon s,.GlSelect i.icon em{display:block;width:0;height:0;overflow:hidden;border-style:solid;border-color:transparent;border-width:4px 4px 0 4px;margin:0 auto;position:relative;_border-color:#ccc;}
+		.GlSelect i.icon s{border-top-color:#ccc;margin-top:7px;z-index:1;}
+		.GlSelect i.icon em{border-top-color:#fff;margin-top:-3px;_z-index:2;}
+		.GlSelect span.txt{display:block;border:1px solid #ccc;cursor:pointer;height:22px;line-height:22px;padding-left:5px;position:relative;z-index:1;}
+		.GlSelect dl{position:absolute;width:118px;border:1px solid #ccc;display:none;max-height:100px;overflow:auto;background-color:#fff;_height:100px;}
+		.GlSelect dl a{display:block;padding-left:5px;color:#333;height:20px;line-height:20px;}
+		.GlSelect dl a:hover{background-color:#666;color:#fff;text-decoration:none;}
+			</xmp>
+		</div>
+	</div>
+	<div class="content clearfix">
+		<div class="left">
+			<h2>城市联动<span>GlAreaSelect()</span></h2>
+			<div id="areaSelect">数据加载中...</div>
+		</div>
+		<div class="right">
+			<table width="100%">
+				<tr>
+					<th width="150">参数</th>
+					<th width="150">类型</th>
+					<th width="150">默认值</th>
+					<th>说明</th>
+				</tr>
+				<tr>
+					<td><b>data</b></td>
+					<td>Json</td>
+					<td>areaJson<br />需引用areaJson.js</td>
+					<td class="tal">
+						<p>城市的json数据</p>
+						<p><b>格式，如：</b></p>
+						<xmp>areaJson = [{
+    "name": "上海",
+    "key": "2",
+    "child": [{
+        "name": "上海市",
+        "key": "526",
+        "child": [{
+            "name": "黄浦",
+            "key": "487"
+        },{
+            "name": "卢湾",
+            "key": "488"
+        }]
+    }]
+}]
+						</xmp>
+					</td>
+				</tr>
+				<tr>
+					<td><b>first</b></td>
+					<td>Json</td>
+					<td class="tal">
+						<pre>
+{
+show:true,
+id:"selectProvince",
+placeholder:"请选择",
+type:"first",
+key:null
+}
+						</pre>
+						
+					</td>
+					<td class="tal">
+						<p>第一个节点的设置</p>
+						<p><b>show</b>：是否显示</p>
+						<p><b>id</b>：select的id</p>
+						<p><b>placeholder</b>：select默认值</p>
+						<p><b>type</b>：是否显示</p>
+						<p><b>key</b>：默认选择的城市的值</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>direction</b></td>
+					<td>String</td>
+					<td>down</td>
+					<td class="tal">
+						<p>下拉弹出框显示的方向</p>
+						<p><b>down</b>：向下</p>
+						<p><b>up</b>：向上</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>trigger</b></td>
+					<td>String</td>
+					<td>click</td>
+					<td class="tal">
+						<p>下拉弹出框的触发方式</p>
+						<p><b>click</b>：点击</p>
+						<p><b>mouseenter</b>：悬停</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>callback</b></td>
+					<td>Function</td>
+					<td>null</td>
+					<td class="tal">选择完成后的回调函数</td>
+				</tr>
+			</table>
+			<h3><span>依赖html</span></h3>
+			<xmp>
+		<div class="GlSelect">
+			<b class="bg"></b>
+			<i class="icon"><s></s><em></em></i>
+			<span class="txt">请选择</span>
+			<input type="hidden" class="hideInput" />
+			<dl>
+				<dd><a href="javascript:void(0);" value="0">选择01</a></dd>
+				<dd><a href="javascript:void(0);" value="1">选择02</a></dd>
+			</dl>
+		</div>
+			</xmp>
+			<h3><span>依赖css</span></h3>
+			<xmp>
+		.GlSelect{width:120px;position:relative;}
+		.GlSelect b.bg,.GlSelect i.icon{display:block;width:20px;height:20px;position:absolute;right:2px;top:2px;}
+		.GlSelect b.bg{background-color:#ccc;}
+		.GlSelect i.icon s,.GlSelect i.icon em{display:block;width:0;height:0;overflow:hidden;border-style:solid;border-color:transparent;border-width:4px 4px 0 4px;margin:0 auto;position:relative;_border-color:#ccc;}
+		.GlSelect i.icon s{border-top-color:#ccc;margin-top:7px;z-index:1;}
+		.GlSelect i.icon em{border-top-color:#fff;margin-top:-3px;_z-index:2;}
+		.GlSelect span.txt{display:block;border:1px solid #ccc;cursor:pointer;height:22px;line-height:22px;padding-left:5px;position:relative;z-index:1;}
+		.GlSelect dl{position:absolute;width:118px;border:1px solid #ccc;display:none;max-height:100px;overflow:auto;background-color:#fff;_height:100px;}
+		.GlSelect dl a{display:block;padding-left:5px;color:#333;height:20px;line-height:20px;}
+		.GlSelect dl a:hover{background-color:#666;color:#fff;text-decoration:none;}
+			</xmp>
+		</div>
+	</div>
+	<div class="content clearfix">
+		<div class="left">
+			<h2>TAB选项卡<span>GlTab()</span></h2>
+			<div class="GlTab">
+				<dl class="clearfix">
+					<dd class="current">上海</dd>
+					<dd>北京</dd>
+					<dd>上海</dd>
+				</dl>
+				<ul>
+					<li>上海（Shanghai），简称“沪”或“申”，中国第一大城市，中华人民共和国直辖市之一，中国国家中心城市，中国的经济、金融中心，繁荣的国际大都市，是中国首个自贸区“中国（上海）自由贸易试验区”的所在地。</li>
+					<li>北京是中华人民共和国的首都、直辖市和国家中心城市之一，中国的政治、文化、科教和国际交往中心，中国经济、金融的决策和管理中心，也是中华人民共和国中央人民政府和全国人民代表大会的办公所在地，位于华北平原的东北边缘，背靠燕山，有永定河流经老城西南，毗邻天津市和河北省。</li>
+					<li>上海（Shanghai），简称“沪”或“申”，中国第一大城市，中华人民共和国直辖市之一，中国国家中心城市，中国的经济、金融中心，繁荣的国际大都市，是中国首个自贸区“中国（上海）自由贸易试验区”的所在地。</li>
+				</ul>
+			</div>
+		</div>
+		<div class="right">
+			<table width="100%">
+				<tr>
+					<th width="150">参数</th>
+					<th width="150">类型</th>
+					<th width="150">默认值</th>
+					<th>说明</th>
+				</tr>
+				<tr>
+					<td><b>auto</b></td>
+					<td>Boolean</td>
+					<td>false</td>
+					<td class="tal">是否自动切换</td>
+				</tr>
+				<tr>
+					<td><b>time</b></td>
+					<td>Number</td>
+					<td>3000</td>
+					<td class="tal">自动切换的停顿时间（毫秒）</td>
+				</tr>
+				<tr>
+					<td><b>trigger</b></td>
+					<td>String</td>
+					<td>click</td>
+					<td class="tal">
+						<p>触发方式</p>
+						<p><b>click</b>：点击</p>
+						<p><b>mouseenter</b>：悬停</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>callback</b></td>
+					<td>Function</td>
+					<td>null</td>
+					<td class="tal">切换完成后的回调函数</td>
+				</tr>
+			</table>
+			<h3><span>依赖html</span></h3>
+			<xmp>
+		<div class="GlTab">
+			<dl class="clearfix">
+				<dd class="current">按钮01</dd>
+				<dd>按钮02</dd>
+			</dl>
+			<ul>
+				<li>内容01</li>
+				<li>内容02</li>
+			</ul>
+		</div>
+			</xmp>
+			<h3><span>依赖css</span></h3>
+			<xmp>
+		.GlTab dl{background-color:#eee;}
+		.GlTab dd{float:left;width:80px;height:30px;line-height:30px;text-align:center;cursor:pointer;}
+		.GlTab dd.current{background-color:#0098d8;color:#fff;}
+		.GlTab ul{border:1px solid #ccc;}
+		.GlTab li{display:none;padding:10px;}
+			</xmp>
+		</div>
+	</div>
+	<div class="content clearfix">
+		<div class="left">
+			<h2>轮播<span>GlSwitch()</span></h2>
+			<h4><span>淡入淡出</span></h4>
+			<div class="GlSwitch GlSwitchFade">
+				<ul>
+					<li><img src="images/test/img01.png" /></li>
+					<li><img src="images/test/img02.png" /></li>
+					<li><img src="images/test/img03.png" /></li>
+				</ul>
+			</div>
+			<h4><span>横向滑动</span></h4>
+			<div class="GlSwitch GlSwitchSlideX">
+				<ul>
+					<li><img src="images/test/img01.png" /></li>
+					<li><img src="images/test/img02.png" /></li>
+					<li><img src="images/test/img03.png" /></li>
+				</ul>
+			</div>
+			<br />
+			<p><a href="javascript:void(0);" class="btnNormal GlSwitchSlideXPause">暂停</a> <a href="javascript:void(0);" class="btnNormal GlSwitchSlideXContinue">继续</a></p>
+			<h4><span>纵向滑动</span></h4>
+			<div class="GlSwitch GlSwitchSlideY">
+				<ul>
+					<li><img src="images/test/img01.png" /></li>
+					<li><img src="images/test/img02.png" /></li>
+					<li><img src="images/test/img03.png" /></li>
+				</ul>
+			</div>
+			<br />
+			<p><a href="javascript:void(0);" class="btnNormal GlSwitchSlideYPause">暂停</a> <a href="javascript:void(0);" class="btnNormal GlSwitchSlideYContinue">继续</a></p>
+		</div>
+		<div class="right">
+			<table width="100%">
+				<tr>
+					<th width="150">参数</th>
+					<th width="150">类型</th>
+					<th width="150">默认值</th>
+					<th>说明</th>
+				</tr>
+				<tr>
+					<td><b>auto</b></td>
+					<td>Boolean</td>
+					<td>true</td>
+					<td class="tal">是否自动切换</td>
+				</tr>
+				<tr>
+					<td><b>time</b></td>
+					<td>Number</td>
+					<td>3000</td>
+					<td class="tal">自动切换的停顿时间（毫秒）</td>
+				</tr>
+				<tr>
+					<td><b>animation</b></td>
+					<td>Number | String</td>
+					<td>500</td>
+					<td class="tal">切换动作的执行时间（毫秒 / slow / normal / fast）</td>
+				</tr>
+				<tr>
+					<td><b>iconCenter</b></td>
+					<td>Boolean</td>
+					<td>false</td>
+					<td class="tal">索引按钮是否居中</td>
+				</tr>
+				<tr>
+					<td><b>trigger</b></td>
+					<td>String</td>
+					<td>click</td>
+					<td class="tal">
+						<p>索引按钮触发方式</p>
+						<p><b>click</b>：点击</p>
+						<p><b>mouseenter</b>：悬停</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>effect</b></td>
+					<td>String</td>
+					<td>fade</td>
+					<td class="tal">
+						<p>切换效果</p>
+						<p><b>fade</b>：淡入淡出</p>
+						<p><b>slideX</b>：横向滚动</p>
+						<p><b>slideX</b>：纵向滚动</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>nav</b></td>
+					<td>Boolean</td>
+					<td>false</td>
+					<td class="tal">是否显示左右切换按钮</td>
+				</tr>
+				<tr>
+					<td><b>navFixed</b></td>
+					<td>Boolean</td>
+					<td>false</td>
+					<td class="tal">左右切换按钮是否固定显示（nav设置为true时有效）</td>
+				</tr>
+				<tr>
+					<td><b>pauseBtn</b></td>
+					<td>String | Element</td>
+					<td>null</td>
+					<td class="tal">暂停按钮</td>
+				</tr>
+				<tr>
+					<td><b>playBtn</b></td>
+					<td>String | Element</td>
+					<td>null</td>
+					<td class="tal">继续按钮</td>
+				</tr>
+				<tr>
+					<td><b>callback</b></td>
+					<td>Function</td>
+					<td>null</td>
+					<td class="tal">切换完成后的回调函数</td>
+				</tr>
+			</table>
+			<h3><span>依赖html</span></h3>
+			<xmp>
+		<div class="GlSwitch">
+			<ul>
+				<li><img src="images/test/img01.png" /></li>
+				<li><img src="images/test/img02.png" /></li>
+				<li><img src="images/test/img03.png" /></li>
+			</ul>
+		</div>
+			</xmp>
+			<h3><span>依赖css</span></h3>
+			<xmp>
+		.GlSwitch{position:relative;width:290px;height:200px;overflow:hidden;}
+		.GlSwitch ul.fade li{position:absolute;left:0;top:0;display:none;width:100%;height:100%;}
+		.GlSwitch ul.slideX{width:9999px;position:absolute;}
+		.GlSwitch ul.slideX li{float:left;width:290px;height:200px;overflow:hidden;}
+		.GlSwitch ul.slideY{position:absolute;}
+		.GlSwitch ul.slideY li{width:290px;height:200px;overflow:hidden;vertical-align:middle;}
+		.GlSwitch span.prev,.GlSwitch span.next{display:block;position:absolute;font-family:\5B8B\4F53;height:30px;line-height:30px;width:20px;
+			text-align:center;color:#fff;font-size:16px;cursor:pointer;top:50%;margin-top:-15px;background-color:#000;filter:alpha(opacity=50);opacity:0.5;
+			-webkit-user-select:none;-moz-user-select:none;user-select:none;}
+		.GlSwitch span.prev:hover,.GlSwitch span.next:hover{filter:alpha(opacity=70);opacity:0.7;}
+		.GlSwitch span.prev{left:10px;}
+		.GlSwitch span.next{right:10px;}
+		.GlSwitch dl{position:absolute;bottom:10px;right:10px;}
+		.GlSwitch dd{width:10px;height:10px;background-color:#999;float:left;margin-right:5px;text-indent:-9999px;
+			border-radius:100%;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;user-select:none;}
+		.GlSwitch dd.current{background-color:#666;}
+			</xmp>
+		</div>
+	</div>
+	<div class="content clearfix">
+		<div class="left">
+			<h2>Dialog弹出框<span>GlDialog()</span></h2>
+			<h4><span>实例1</span>　<a href="javascript:void(0);" class="btnNormal dialog01">点击</a></h4>
+			<p class="pb10">一个常规的弹出框，3秒后自动关闭</p>
+			<h4><span>实例2</span>　<a href="javascript:void(0);" class="btnNormal dialog02">点击</a></h4>
+			<p class="pb10">不显示遮罩层和标题</p>
+			<h4><span>实例3</span>　<a href="javascript:void(0);" class="btnNormal dialog03">点击</a></h4>
+			<p class="pb10">缩放效果</p>
+			<h4><span>实例4</span>　<a href="javascript:void(0);" class="btnNormal dialog04">点击</a></h4>
+			<p class="pb10">淡入淡出效果</p>
+			<h4><span>实例5</span>　<a href="javascript:void(0);" class="btnNormal dialog05">点击</a></h4>
+			<p class="pb10">上下伸缩效果</p>
+			<h4><span>实例6</span>　<a href="javascript:void(0);" class="btnNormal dialog06">点击</a></h4>
+			<p class="pb10">顶部滑入效果</p>
+			<h4><span>实例7</span>　<a href="javascript:void(0);" class="btnNormal dialog07">点击</a></h4>
+			<p class="pb10">相对定位到窗口左上角</p>
+			<h4><span>实例8</span>　<a href="javascript:void(0);" class="btnNormal dialog08">点击</a></h4>
+			<p class="pb10">自定义弹出框</p>
+			<h4><span>实例9</span>　<a href="javascript:void(0);" class="btnNormal dialog09">点击</a></h4>
+			<p class="pb10">一个锁定的弹出框</p>
+			<h4><span>实例10</span>　<a href="javascript:void(0);" class="btnNormal dialog10">点击</a></h4>
+			<p class="pb10">回调函数</p>
+		</div>
+		<div class="right">
+			<table width="100%">
+				<tr>
+					<th width="200">参数</th>
+					<th width="150">类型</th>
+					<th width="150">默认值</th>
+					<th>说明</th>
+				</tr>
+				<tr>
+					<td><b>title</b></td>
+					<td>String</td>
+					<td>提示信息</td>
+					<td class="tal">弹出框标题（自定义弹出框无效）</td>
+				</tr>
+				<tr>
+					<td><b>content</b></td>
+					<td>String | Html String</td>
+					<td>null</td>
+					<td class="tal">弹出框内容（自定义弹出框无效）</td>
+				</tr>
+				<tr>
+					<td><b>btnSubmitText</b></td>
+					<td>String</td>
+					<td>确定</td>
+					<td class="tal">确定按钮文字（自定义弹出框无效）</td>
+				</tr>
+				<tr>
+					<td><b>btnCancelText</b></td>
+					<td>String</td>
+					<td>取消</td>
+					<td class="tal">取消按钮文字（自定义弹出框无效）</td>
+				</tr>
+				<tr>
+					<td><b>btnSubmitShow</b></td>
+					<td>Boolean</td>
+					<td>true</td>
+					<td class="tal">是否显示确定按钮（自定义弹出框无效）</td>
+				</tr>
+				<tr>
+					<td><b>btnCancelShow</b></td>
+					<td>Boolean</td>
+					<td>false</td>
+					<td class="tal">是否显示取消按钮（自定义弹出框无效）</td>
+				</tr>
+				<tr>
+					<td><b>shadow</b></td>
+					<td>Boolean</td>
+					<td>true</td>
+					<td class="tal">是否显示遮罩层</td>
+				</tr>
+				<tr>
+					<td><b>opacity</b></td>
+					<td>String</td>
+					<td>0.4</td>
+					<td class="tal">遮罩层透明度（0~1）</td>
+				</tr>
+				<tr>
+					<td><b>auto</b></td>
+					<td>Boolean</td>
+					<td>false</td>
+					<td class="tal">是否自动关闭</td>
+				</tr>
+				<tr>
+					<td><b>time</b></td>
+					<td>Number</td>
+					<td>3000</td>
+					<td class="tal">自动关闭的时间（毫秒）</td>
+				</tr>
+				<tr>
+					<td><b>width</b></td>
+					<td>Number</td>
+					<td>300</td>
+					<td class="tal">弹出框宽度（自定义弹出框无效）</td>
+				</tr>
+				<tr>
+					<td><b>effect</b></td>
+					<td>String</td>
+					<td>null</td>
+					<td class="tal">
+						<p>动画效果</p>
+						<p><b>zoom</b>：缩放</p>
+						<p><b>fade</b>：淡入淡出</p>
+						<p><b>slide</b>：上下伸缩</p>
+						<p><b>scroll</b>：顶部滑入</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>animation</b></td>
+					<td>Number | String</td>
+					<td>500</td>
+					<td class="tal">动画效果时间（毫秒 / slow / normal / fast）</td>
+				</tr>
+				<tr>
+					<td><b>fixed</b></td>
+					<td>Boolean</td>
+					<td>true</td>
+					<td class="tal">是否固定定位</td>
+				</tr>
+				<tr>
+					<td><b>left</b></td>
+					<td>Number</td>
+					<td>null</td>
+					<td class="tal">设置离窗口左侧的距离（默认水平居中）</td>
+				</tr>
+				<tr>
+					<td><b>right</b></td>
+					<td>Number</td>
+					<td>null</td>
+					<td class="tal">设置离窗口右侧的距离（默认水平居中）（设置右侧距离时左侧距离自动忽略）</td>
+				</tr>
+				<tr>
+					<td><b>top</b></td>
+					<td>Number</td>
+					<td>null</td>
+					<td class="tal">设置离窗口顶部的距离（默认垂直居中）</td>
+				</tr>
+				<tr>
+					<td><b>bottom</b></td>
+					<td>Number</td>
+					<td>null</td>
+					<td class="tal">设置离窗口底部的距离（默认垂直居中）（设置底部距离时顶部距离自动忽略）</td>
+				</tr>
+				<tr>
+					<td><b>esc</b></td>
+					<td>Boolean</td>
+					<td>true</td>
+					<td class="tal">是否按esc键关闭弹出框</td>
+				</tr>
+				<tr>
+					<td><b>dblclick</b></td>
+					<td>Boolean</td>
+					<td>true</td>
+					<td class="tal">是否双击遮罩层关闭弹出框</td>
+				</tr>
+				<tr>
+					<td><b>lock</b></td>
+					<td>Boolean</td>
+					<td>false</td>
+					<td class="tal">是否锁定弹出框（即任何方式都无法关闭）</td>
+				</tr>
+				<tr>
+					<td><b>element</b></td>
+					<td>String | Element</td>
+					<td>null</td>
+					<td class="tal">自定义弹出框</td>
+				</tr>
+				<tr>
+					<td><b>submitCallback</b></td>
+					<td>Function</td>
+					<td>null</td>
+					<td class="tal">提交按钮的回调函数</td>
+				</tr>
+				<tr>
+					<td><b>cancelCallback</b></td>
+					<td>Function</td>
+					<td>null</td>
+					<td class="tal">取消按钮的回调函数</td>
+				</tr>
+				<tr>
+					<td><b>closeCallback</b></td>
+					<td>Function</td>
+					<td>null</td>
+					<td class="tal">关闭按钮的回调函数</td>
+				</tr>
+				<tr>
+					<td><b>shadowCloseCallback</b></td>
+					<td>Function</td>
+					<td>null</td>
+					<td class="tal">双击遮罩层关闭时的回调函数</td>
+				</tr>
+				<tr>
+					<td><b>escCallback</b></td>
+					<td>Function</td>
+					<td>null</td>
+					<td class="tal">esc的回调函数</td>
+				</tr>
+			</table>
+			<h3><span><del>依赖html</del></span></h3>
+			<h3><span>依赖css</span></h3>
+			<xmp>
+		.GlDialog{border:5px solid #ccc;border:5px solid rgba(0,0,0,0.3);box-shadow:0 0 1px 1px rgba(0,0,0,0.3);display:none;}
+		.GlDialog .info{background-color:#fff;}
+		.GlDialog span.close{cursor:pointer;position:absolute;right:0;top:0;font-family:\5B8B\4F53;font-size:14px;padding:2px;right:0px;top:0px;}
+		.GlDialog span.close:hover{background-color:#999;color:#fff;}
+		.GlDialog p.tit{font-size:14px;font-weight:700;padding:10px;border-bottom:1px dotted #ccc;}
+		.GlDialog p.tit span.countdown{font-size:12px;color:#999;}
+		.GlDialog .con{padding:20px 10px 10px 10px;line-height:20px;}
+		.GlDialog .btn{padding:10px;text-align:center;}
+		.GlDialog .btnCancel{margin-left:10px;}
+			</xmp>
+		</div>
+	</div>
+	<div class="content clearfix">
+		<div class="left">
+			<h2>提示信息<span>GlTips()</span></h2>
+			<h4><span>实例1</span>　<a href="javascript:void(0);" class="btnNormal tips01">点击</a></h4>
+			<p class="pb10">默认显示</p>
+			<h4><span>实例2</span>　<a href="javascript:void(0);" class="btnNormal tips02">点击</a></h4>
+			<p class="pb10">点击显示</p>
+			<h4><span>实例3</span>　<a href="javascript:void(0);" class="btnNormal tips03">悬停</a></h4>
+			<p class="pb10">悬停显示</p>
+			<h4><span>实例4</span>　<input type="text" class="text tips04" /></h4>
+			<p class="pb10">获取焦点时显示</p>
+		</div>
+		<div class="right">
+			<table width="100%">
+				<tr>
+					<th width="150">参数</th>
+					<th width="150">类型</th>
+					<th width="150">默认值</th>
+					<th>说明</th>
+				</tr>
+				<tr>
+					<td><b>content</b></td>
+					<td>String | Html String</td>
+					<td>null</td>
+					<td class="tal">提示文字</td>
+				</tr>
+				<tr>
+					<td><b>direction</b></td>
+					<td>String</td>
+					<td>top left</td>
+					<td class="tal">
+						<p>提示信息相对触发元素显示的位置</p>
+						<p><b>top left</b>：上方居左</p>
+						<p><b>top center</b>：上方居中</p>
+						<p><b>top right</b>：上方居右</p>
+						<p><b>right top</b>：右侧居上</p>
+						<p><b>right center</b>：右侧居中</p>
+						<p><b>right bottom</b>：右侧居下</p>
+						<p><b>bottom left</b>：下方居左</p>
+						<p><b>bottom center</b>：下方居中</p>
+						<p><b>bottom right</b>：下方居右</p>
+						<p><b>left top</b>：左侧居上</p>
+						<p><b>left center</b>：左侧居中</p>
+						<p><b>left bottom</b>：左侧居下</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>distance</b></td>
+					<td>Number</td>
+					<td>10</td>
+					<td class="tal">提示信息相对触发元素的距离</td>
+				</tr>
+				<tr>
+					<td><b>closeBtn</b></td>
+					<td>Boolean</td>
+					<td>true</td>
+					<td class="tal">关闭按钮</td>
+				</tr>
+				<tr>
+					<td><b>width</b></td>
+					<td>Number</td>
+					<td>null</td>
+					<td class="tal">提示信息的宽度</td>
+				</tr>
+				<tr>
+					<td><b>effect</b></td>
+					<td>String</td>
+					<td>null</td>
+					<td class="tal">
+						<p>显示效果（默认无效果）</p>
+						<p><b>fade</b>：淡入淡出</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>trigger</b></td>
+					<td>String</td>
+					<td>null</td>
+					<td class="tal">
+						<p>触发方式（默认自动显示）</p>
+						<p><b>click</b>：点击</p>
+						<p><b>mouseenter</b>：悬停</p>
+						<p><b>focus</b>：获取焦点</p>
+					</td>
+				</tr>
+				<tr>
+					<td><b>callback</b></td>
+					<td>Function</td>
+					<td>null</td>
+					<td class="tal">关闭提示后的回调函数</td>
+				</tr>
+			</table>
+			<h3><span><del>依赖html</del></span></h3>
+			<h3><span>依赖css</span></h3>
+			<xmp>
+		.GlTips{position:absolute;background-color:#fff;border:1px solid #ccc;padding:5px 10px;display:none;z-index:100;}
+		.GlTips .icon{position:absolute;display:block;width:12px;height:12px;}
+		.GlTips s,.GlTips i{display:block;border-style:solid;border-width:6px;width:0;height:0;overflow:hidden;position:absolute;border-color:transparent;
+			_display:none;}
+		.GlTips .close{font-family:\5B8B\4F53;font-size:12px;cursor:pointer;position:absolute;right:-1px;top:-1px;display:none;padding-left:1px;
+			background-color:#ccc;color:#fff;}
+		.GlTips .close:hover{background-color:#999;}
+		.GlTipsTop .icon{left:10px;bottom:-12px;}
+		.GlTipsTop s{border-top-color:#ccc;margin-top:1px;}
+		.GlTipsTop i{border-top-color:#fff;}
+		.GlTipsBottom .icon{left:10px;top:-12px;}
+		.GlTipsBottom s{border-bottom-color:#ccc;margin-top:-1px;}
+		.GlTipsBottom i{border-bottom-color:#fff;}
+		.GlTipsLeft .icon{right:-12px;top:10px;}
+		.GlTipsLeft s{border-left-color:#ccc;}
+		.GlTipsLeft i{border-left-color:#fff;margin-left:-1px;}
+		.GlTipsRight .icon{left:-12px;top:10px;}
+		.GlTipsRight s{border-right-color:#ccc;margin-left:-1px;}
+		.GlTipsRight i{border-right-color:#fff;}
+			</xmp>
+		</div>
+	</div>
+	<div class="content clearfix">
+		<div class="left">
+			<h2>placeholder提示<span>GlPlaceholder()</span></h2>
+			<h4><span>input</span></h4>
+			<p><input type="text" class="text placeholder" placeholder="提示信息" /></p>
+			<h4><span>textarea</span></h4>
+			<p><textarea class="textarea placeholder" placeholder="提示信息"></textarea></p>
+		</div>
+		<div class="right">
+			<table width="100%">
+				<tr>
+					<th width="150">参数</th>
+					<th width="150">类型</th>
+					<th width="150">默认值</th>
+					<th>说明</th>
+				</tr>
+				<tr>
+					<td><b>content</b></td>
+					<td>String | Html String</td>
+					<td>null</td>
+					<td class="tal">提示文字</td>
+				</tr>
+			</table>
+			<h3><span><del>依赖html</del></span></h3>
+			<h3><span><del>依赖css</del></span></h3>
+			<xmp>
+			</xmp>
+		</div>
+	</div>
+
+	<!-- <div class="GlDialog">
+		<span class="close">×</span>
+		<div class="info">
+			<p class="tit">提示信息</p>
+			<div class="con"><p>我是内容</p></div>
+			<div class="btn"><input type="button" class="btnNormal btnBlue" value="确定" /> <input type="button" class="btnNormal" value="取消" /></div>
+		</div>
+	</div>
+	<div class="GlDialogShadow"></div> -->
+
+	<div class="customDialog">
+		<p>上海（Shanghai），简称“沪”或“申”，中国第一大城市，中华人民共和国直辖市之一，中国国家中心城市，中国的经济、金融中心，繁荣的国际大都市，是中国首个自贸区“中国（上海）自由贸易试验区”的所在地。</p>
+		<br />
+		<p><a href="javascript:void(0);" class="btnNormal close">关闭</a></p>
+	</div>
+
+	<!-- <div class="GlTips"><span>提示信息</span><s></s><i></i></div> -->
+
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/easing.js" type="text/javascript"></script>
+<script src="js/areaJson.js" type="text/javascript"></script>
+<script src="js/common.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+	$(function(){
+		$('.GlSelect').GlSelect();
+		$('#areaSelect').GlAreaSelect();
+		$('.GlTab').GlTab();
+		$('.GlSwitchFade').GlSwitch();
+		$('.GlSwitchSlideX').GlSwitch({
+			iconCenter:true,
+			nav:true,
+			effect:'slideX',
+			pauseBtn:'.GlSwitchSlideXPause',
+			playBtn:'.GlSwitchSlideXContinue'
+		});
+		$('.GlSwitchSlideY').GlSwitch({
+			auto:false,
+			iconCenter:true,
+			nav:true,
+			navFixed:true,
+			effect:'slideY',
+			pauseBtn:'.GlSwitchSlideYPause',
+			playBtn:'.GlSwitchSlideYContinue'
+		});
+		$('.dialog01').click(function(){
+			$.GlDialog({
+				title:'提示信息',
+				content:'普通的弹出层，3秒后自动关闭',
+				auto:true,
+				time:3000
+			});
+		});
+		$('.dialog02').click(function(){
+			$.GlDialog({
+				content:'只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分只有内容部分',
+				shadow:false,
+				right:20,
+				bottom:20,
+				fixed:false
+			});
+		});
+		$('.dialog03').click(function(){
+			$.GlDialog({
+				title:'效果展示',
+				content:'缩放效果',
+				effect:'zoom'
+			});
+		});
+		$('.dialog04').click(function(){
+			$.GlDialog({
+				title:'效果展示',
+				content:'淡入淡出效果',
+				effect:'fade'
+			});
+		});
+		$('.dialog05').click(function(){
+			$.GlDialog({
+				title:'效果展示',
+				content:'上下伸缩效果',
+				effect:'slide'
+			});
+		});
+		$('.dialog06').click(function(){
+			$.GlDialog({
+				title:'效果展示',
+				content:'顶部滑入效果',
+				effect:'scroll'
+			});
+		});
+		$('.dialog07').click(function(){
+			$.GlDialog({
+				title:'提示信息',
+				content:'相对定位到窗口左上角，距离窗口左、上各200像素',
+				effect:'fade',
+				fixed:false,
+				left:200,
+				top:200
+			});
+		});
+		$('.dialog08').click(function(){
+			$.GlDialog({
+				element:'.customDialog'
+			});
+		});
+		$('.dialog09').click(function(){
+			$.GlDialog({
+				title:'提示信息',
+				content:'弹出层已锁定，无法关闭，请刷新页面',
+				lock:true
+			});
+		});
+		$('.dialog10').click(function(){
+			$.GlDialog({
+				title:'提示信息',
+				content:'点击各个按钮有不同的回调函数',
+				btnCancelShow:true,
+				submitCallback:function(){
+					alert('确定按钮回调');
+				},
+				cancelCallback:function(){
+					alert('取消按钮回调');
+				},
+				closeCallback:function(){
+					alert('关闭按钮回调');
+				},
+				shadowCloseCallback:function(){
+					alert('遮罩层回调');
+				},
+				escCallback:function(){
+					alert('esc回调');
+				}
+			});
+		});
+		$('.tips01').GlTips({
+			content:'上海（Shanghai），简称“沪”或“申”，中国第一大城市，中华人民共和国直辖市之一，中国国家中心城市，中国的经济、金融中心，繁荣的国际大都市，是中国首个自贸区“中国（上海）自由贸易试验区”的所在地。',
+			width:150
+		});
+		$('.tips02').GlTips({
+			content:'上海（Shanghai），简称“沪”或“申”，中国第一大城市，中华人民共和国直辖市之一，中国国家中心城市，中国的经济、金融中心，繁荣的国际大都市，是中国首个自贸区“中国（上海）自由贸易试验区”的所在地。',
+			trigger:'click',
+			direction:'right top',
+			width:150
+		});
+		$('.tips03').GlTips({
+			content:'上海（Shanghai），简称“沪”或“申”，中国第一大城市，中华人民共和国直辖市之一，中国国家中心城市，中国的经济、金融中心，繁荣的国际大都市，是中国首个自贸区“中国（上海）自由贸易试验区”的所在地。',
+			trigger:'mouseenter',
+			direction:'bottom left',
+			closeBtn:false,
+			width:150
+		});
+		$('.tips04').GlTips({
+			content:'填写手机号码',
+			trigger:'focus',
+			closeBtn:false
+		});
+		$('.placeholder').GlPlaceholder();
+	});
+//-->
+</script>
+</body>
+</html>
